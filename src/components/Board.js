@@ -1,4 +1,4 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-const Board = ({ Children }) => <Grid>{Children}</Grid>;
+const Board = ({ children }) => <Grid>{children}</Grid>;
 export default Board;

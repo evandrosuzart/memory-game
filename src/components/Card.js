@@ -1,7 +1,7 @@
 import React from "react";
-import MuCrd from "@material-ui/core/Card";
+import MUCard from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import Typografi from "@material-ui/core/Typography";
+import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import classNames from "classnames";
 
@@ -16,7 +16,7 @@ const styles = {
   },
   flipper: {
     transition: "0.6s",
-    transformStyles: "preserve-3d",
+    transformStyle: "preserve-3d",
     position: "relative"
   },
   flipperRotate: {
@@ -35,22 +35,27 @@ const styles = {
     transform: "rotateY(0deg)",
     zIndex: 2
   },
-  pageBack: {}
+  pageBack: {
+    backgroundColor: "tomato",
+    transform: "rotateY(180deg)"
+  }
 };
-
-const Card = ({ name, classes, isAtive }) => (
-  <div className={classes.root}>
+const Card = ({ name, classes, isActive, onClick }) => (
+  <div role="presentation" className={classes.root} onClick={onClick}>
     <div
       className={classNames(classes.flipper, {
-        [classes.flipperRotate]: isAtive
+        [classes.flipperRotate]: isActive
       })}
     >
-      <MuCrd>
+      <MUCard className={classNames(classes.page, classes.pageFront)} />
+      <MUCard className={classNames(classes.page, classes.pageBack)}>
         <CardContent>
-          <Typografi>{name}</Typografi>
+          <Typography variant="h5" component="h2">
+            {name}
+          </Typography>
         </CardContent>
-      </MuCrd>
+      </MUCard>
     </div>
   </div>
 );
-export default Card;
+export default withStyles(styles)(Card);
