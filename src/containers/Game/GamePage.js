@@ -1,29 +1,44 @@
 import React from "react";
-import { Board, Card } from "../../components";
-/*
-const GamePage = () => (
-  <Board>
-    <Card name="test card" isActive />
-  </Board>
-);
-*/
+import { connect } from "react-redux";
+import { selectCard, closeVictoryDialog, startGame } from "../../store/actions";
+import { Board, Card, VictoryDialog } from "../../components";
 
-class GamePage extends React.Component {
-  state = { isActive: true };
-
-  handleClick = () => {
-    this.setState(prevState => ({ isActive: !prevState.isActive }));
-  };
-  render() {
-    return (
-      <Board>
+const GamePage = ({
+  cards,
+  onCardClick,
+  isVictoryDialogOpen,
+  onCloseVictoryDialog,
+  onStartGame
+}) => (
+  <>
+    <Board>
+      {cards.map(card => (
         <Card
-          name="test card"
-          isActive={this.state.isActive}
-          onClick={this.handleClick}
+          key={card.key}
+          name={card.name}
+          isActive={card.isActive}
+          onClick={() => {
+            onCardClick(card.key);
+          }}
         />
-      </Board>
-    );
-  }
-}
-export default GamePage;
+      ))}
+    </Board>
+    <VictoryDialog
+      isOpen={isVictoryDialogOpen}
+      onClose={onCloseVictoryDialog}
+      onGameRestart={onStartGame}
+    />
+  </>
+);
+
+const mapDispatchToProps = {
+  onCardClick: selectCard,
+  onCloseVictoryDialog: closeVictoryDialog,
+  onStartGame: startGame
+};
+const mapStateToProps = state => ({
+  cards: state.cards,
+  isVictoryDialogOpen: state.isVictoryDialogOpen
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(GamePage);
